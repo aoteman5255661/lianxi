@@ -3,20 +3,23 @@
 typedef long long ll;
 using namespace std;
 
-int a[1000010]={0};
+ll a[1000010]={0};
 int n, q;
 
-int lowbit(int x){
+inline int lowbit(int x){
     return x & -x;
 }
 
-void update(int x, int y){
+inline void update(int x, ll y){
     for(int i = x; i <= n; i += lowbit(i)){
         a[i] += y;
     }
 }
 
-long long query(int x){
+inline long long query(ll x){
+    if(x == 0){
+        return 0;
+    }
     ll ans = 0;
     for(int i = x; i >= 1; i -= lowbit(i)){
         ans += a[i];
@@ -26,19 +29,20 @@ long long query(int x){
 
 int main(){
     cin >> n >> q;
+    ll tmp;
     for(int i = 1; i <= n; i++){
-        int tmp;
         cin >> tmp;
         update(i, tmp);
     }
 
-    for(int i = 0; i < q; i += 2){
-        int a, b, c;
-        int A, B, C;
+    for(int i = 0; i < q; i++){
+        ll a, b, c;
         cin >> a >> b >> c;
-        cin >> A >> B >> C;
+
+        if(a == 1)
         update(b, c);
-        cout << query(C) - query(B-1) << endl;
+        else if(a == 2)
+        cout << query(c) - query(b-1) << endl;
     }
     return 0;
     
